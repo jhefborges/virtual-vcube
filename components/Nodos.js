@@ -1,11 +1,11 @@
 export default class Nodos {
 
-    constructor(n, positionX, positionY) {
+    constructor(n, topologia) {
         this.n = n;
         this.nodo = [];
         for (let i = 0; i < n; i++) {
-            const x = positionX(i,n);
-            const y = positionY(i,n);
+            const x = topologia.posicaoX(i,n);
+            const y = topologia.posicaoY(i,n);
             this.nodo[i] = {
                 "i": i,
                 "x": x,

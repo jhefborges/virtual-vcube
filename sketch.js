@@ -2,7 +2,7 @@ import Nodos from "./components/Nodos";
 import Ring from "./components/Ring";
 import BroadCast from "./components/Broadcast";
 import Gossip from "./components/Gossip";
-
+import VCube from "./components/VCube";
 
 //Variveis dos nodos
 let quantidade = 8;
@@ -12,7 +12,8 @@ let nodos;
 let topologias = [
 	new Ring(),
 	new BroadCast(),
-	new Gossip(quantidade)
+	new Gossip(quantidade),
+	new VCube(quantidade),
 ];
 
 let indTopologia = 0;
@@ -69,7 +70,6 @@ let indiceFalha = 0;
 
 function languageChange() {
 	var item = languageSelect.value();
-	console.log(item);
 	language = item;
 	setup();
 	reset();
@@ -83,10 +83,9 @@ window.setup = () => {
 	if(lang!=null){
 		language = lang;
 	}
-	console.log(lang);
 	let canvas = createCanvas(1200, 600);
 	canvas.parent('sketch-holder');
-	nodos = new Nodos(quantidade, topologia.posicaoX, topologia.posicaoY);
+	nodos = new Nodos(quantidade, topologia);
 	if(buttonContinua){
 		buttonContinua.remove();
 	}
@@ -107,7 +106,6 @@ window.setup = () => {
 			languageSelect.selected(lang.sigla);
 		}
 	});
-	languageSelect.sel
 	languageSelect.changed(languageChange);
 }
 
@@ -191,7 +189,7 @@ window.draw = () => {
 			nodos.getNodosSemFalha(envia);
 		} else {
 			nodos.getNodosSemFalha(recebe);
-		}
+		}''
 		rodada = rodada + 1;
 		if (rodada == rounds) {
 			
@@ -212,7 +210,7 @@ window.draw = () => {
 				}
 				nodos.get(6).falho = true;
 				nodos.get(6).n[6] = true;
-				topologia.fimDeRodada();
+				topologia.fimDeRodada(indiceFalha,teveFalha);
 			}
 			volta = !volta;
 			rodada = 0;
