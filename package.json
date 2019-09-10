@@ -2,7 +2,7 @@
   "name": "tg-parte1-2.0",
   "version": "1.0.0",
   "description": "",
-  "main": "sketch.js",
+  "main": "src/sketch.js",
   "browserify": {
     "transform": [
       [
@@ -28,8 +28,8 @@
     "babelify": "^8.0.0"
   },
   "scripts": {
-    "build": "browserify sketch.js -o dist/sketch.js",
-    "watch": "watchify sketch.js -o dist/sketch.js -v"
+    "build": "browserify src/sketch.js -o dist/sketch.js",
+    "watch": "watchify src/sketch.js -o dist/sketch.js -v"
   },
   "author": "",
   "license": "ISC"

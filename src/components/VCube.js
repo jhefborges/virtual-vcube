@@ -15,7 +15,7 @@ export default class VCube extends Base {
 
         //Definições da ling
         this.textos = {};
-        this.textos.br = [{
+        this.textos.br = [];/*  [{
                 "i": 0,
                 "text": "TOPOLOGIA GOSSIP:\nTodos os nodos estão sem falhas"
             },
@@ -27,11 +27,15 @@ export default class VCube extends Base {
                 "i": 3,
                 "text": "Os nodos testam o nodos \nescolhidos aleatoriamente a cada \nrodada"
             }
-        ];
+        ]; */
         this.textoFinaliza = {};
         this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
         this.titulos = {};
         this.titulos.br = "Topologia VCube";
+    }
+
+	buscaResultados(){
+        return true;
     }
 
     posicaoX(indice, n) {
@@ -50,14 +54,11 @@ export default class VCube extends Base {
             this.cluster = (this.cluster + 1) % this.clusterMaximo;
             this.indice = 0;
         } else {
-            console.log(this.indice,this.cluster,Math.pow(2,this.cluster));
             if(this.indice+1 >= Math.pow(2,this.cluster)){
-                console.log("resetou o indice incrementou o cluster");
                 this.indice =0;   
                 this.cluster = (this.cluster + 1) % this.clusterMaximo;    
             }
             else{
-                console.log("incrementou o indice");
                 this.indice +=1;
             }
         }
