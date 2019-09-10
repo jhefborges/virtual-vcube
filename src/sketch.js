@@ -158,7 +158,6 @@ let atualizaDados = (n1,nodos) => {
 	let nodosR = topologia.nodosEnviar(n1, nodos,indiceFalha);
 	if(topologia.buscaResultados()){
 		nodosR.forEach(n2 => {
-			console.log(n1.i,n2.i);
 			n2.n.forEach((n3,i) => {
 				n1.n[i] = n1.n[i]||n3;
 			});
@@ -178,6 +177,7 @@ let obtemFalhas = (n1, nodos) => {
 
 window.draw = () => {
 	background(255);
+	topologia.desenhaCluster(nodos);
 	let c1 = color(0, 0, 0);
 	fill(c1);
 	textSize(18);

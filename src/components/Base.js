@@ -28,4 +28,6 @@ export default class Base {
         let intervalo = tInterval * indice + inicioPi;
         return k + b * (Math.sin(intervalo));
     };
+
+    desenhaCluster(){};
 }

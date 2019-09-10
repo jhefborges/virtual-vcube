@@ -34,9 +34,27 @@ export default class VCube extends Base {
         this.titulos.br = "Topologia VCube";
     }
 
+    desenhaCluster(nodos){
+        var c = color(0, 123, 122);
+        fill(c);
+        for (let i = 0; i < this.quantidade; i++) {
+            if ((i % (Math.pow(2, this.cluster + 1)) == 0)) {
+                if (this.cluster == 0) {
+                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 400, 100);
+                }
+                if (this.cluster == 1) {
+                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 400, 400);
+                }
+                if (this.cluster == 2) {
+                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 1000, 400);
+                }
+            }
+        }
+    };
+
 	buscaResultados(){
         return true;
-    }
+    };
 
     posicaoX(indice, n) {
         //indice = indice-1;
