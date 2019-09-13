@@ -1,5 +1,12 @@
 import Base from './Base';
 
+/**
+ *
+ *
+ * @export
+ * @class VCube
+ * @extends {Base}
+ */
 export default class VCube extends Base {
     
     constructor(quantidade) {
@@ -34,6 +41,13 @@ export default class VCube extends Base {
         this.titulos.br = "Topologia VCube";
     }
 
+
+    /**
+     * Metodo que fornece informacoes para desenhar cluster
+     *
+     * @param {*} nodos
+     * @memberof VCube
+     */
     desenhaCluster(nodos){
         var c = color(0, 123, 122);
         fill(c);

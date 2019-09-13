@@ -4,8 +4,20 @@ var k = 270;
 var a = 320;
 var b = 200;
 
+/**
+ *
+ *
+ * @export
+ * @class Base
+ */
 export default class Base {
 
+    /**
+     *Define se os nodos obtem informacoes ao fazer diagnostico
+     * @instance
+     * @returns - true se sim false se nao
+     * @memberof Base
+     */
     buscaResultados(){
         return false;
     }
