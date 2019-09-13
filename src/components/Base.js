@@ -30,4 +30,8 @@ export default class Base {
     };
 
     desenhaCluster(){};
+
+    formato(){
+        return "elipse";
+    }
 }

@@ -136,9 +136,24 @@ let envia = (n1, nodos) => {
 	fill(c);
 	let nodosE = topologia.nodosEnviar(n1, nodos,indiceFalha);
 	nodosE.forEach(n2 => {
+		let curveX = 0;
+		let curveY = 0;
 		let novox = (n1.x - n2.x) / rounds;
 		let novoy = (n1.y - n2.y) / rounds;
-		ellipse(n1.x - novox * rodada, n1.y - novoy * rodada, 30);
+		//Deslocamento para desviar de nodos
+		if(topologia.formato() == "cluster"&&novox!=0&&Math.abs(n1.x - n2.x)>300){
+			if(rodada/rounds<0.5){
+				curveY = (200*rodada/rounds);
+			}
+			else{
+				curveY = (200*(rounds-rodada)/rounds);
+			}
+			//Para sempre passar dentro do cluster
+			if(n1.i%4>1){
+				curveY = -curveY;
+			}
+		}
+		ellipse(n1.x - novox * rodada, n1.y - novoy * rodada+curveY, 30);
 	});
 }
 
@@ -147,9 +162,24 @@ let recebe = (n1, nodos) => {
 	fill(c);
 	let nodosR = topologia.nodosReceber(n1, nodos,indiceFalha);
 	nodosR.forEach(n2 => {
+		let curveX = 0;
+		let curveY = 0;
 		let novox = (n1.x - n2.x) / rounds;
 		let novoy = (n1.y - n2.y) / rounds;
-		rect(n1.x - novox * (rounds - rodada), n1.y - novoy * (rounds - rodada), 30, 30);
+		//Deslocamento para desviar de nodos
+		if(topologia.formato() == "cluster"&&novox!=0&&Math.abs(n1.x - n2.x)>300){
+			if(rodada/rounds<0.5){
+				curveY = (200*rodada/rounds);
+			}
+			else{
+				curveY = (200*(rounds-rodada)/rounds);
+			}
+			//Para sempre passar dentro do cluster
+			if(n1.i%4>1){
+				curveY = -curveY;
+			}
+		}
+		rect(n1.x - novox * (rounds - rodada)-15+curveX, n1.y - novoy * (rounds - rodada)-15+curveY, 30, 30);
 	});
 }
 

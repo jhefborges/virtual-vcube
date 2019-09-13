@@ -66,6 +66,9 @@ export default class VCube extends Base {
         return this.inicial + this.a * (parseInt(indice / 2) - 2 * parseInt(indice / 4));
     };
 
+    formato(){
+        return "cluster";
+    }
 
     fimDeRodada(indiceFalha, teveFalha) {
         if (!teveFalha) {
@@ -82,52 +85,28 @@ export default class VCube extends Base {
         }
     }
 
-    cis(nodo, cluster, indice) {
-        const cis = [];
-        cis[0] = [
-            [1],
-            [2, 3],
-            [4, 5, 6, 7]
-        ];
-        cis[1] = [
-            [0],
-            [3, 2],
-            [5, 4, 7, 6]
-        ];
-        cis[2] = [
-            [3],
-            [0, 1],
-            [6, 7, 4, 5]
-        ];
-        cis[3] = [
-            [2],
-            [1, 0],
-            [7, 6, 5, 4]
-        ];
-        cis[4] = [
-            [5],
-            [6, 7],
-            [0, 1, 2, 3]
-        ];
-        cis[5] = [
-            [4],
-            [7, 6],
-            [1, 0, 3, 2]
-        ];
-        cis[6] = [
-            [7],
-            [4, 5],
-            [2, 3, 0, 1]
-        ];
-        cis[7] = [
-            [6],
-            [5, 4],
-            [3, 2, 1, 0]
-        ];
-        return (cis[nodo][cluster][indice]);
+    cis(nodo,cluster,indice){
+        return this.cis_r(nodo,cluster+1)[indice];
     }
 
-    nodosEnviar(n1, nodos) {
+    cis_r(nodo,cluster){
+        //console.log(nodo,cluster-1);
+        let xor = nodo ^ Math.pow(2,cluster-1);
+	    let j;
+        let list=[];
+
+	    list.push(xor%this.quantidade);
+
+        for (j=1; j<=cluster-1; j++) {
+            let other = this.cis_r(xor, j);
+            other.forEach(n => {
+                list.push(n);
+            });
+        }
+        return list;
+    }
+
+    nodosEnviar(n1, nodos) {   
         let n2 = nodos.get(this.cis(n1.i, this.cluster, this.indice));
         if (this.indice == 0)
             return [n2];
