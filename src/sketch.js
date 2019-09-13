@@ -1,13 +1,14 @@
 import Nodos from "./components/Nodos";
-import Ring from "./components/Ring";
-import BroadCast from "./components/Broadcast";
-import Gossip from "./components/Gossip";
-import VCube from "./components/VCube";
+import Ring from "./components/topology/Ring";
+import BroadCast from "./components/topology/Broadcast";
+import Gossip from "./components/topology/Gossip";
+import VCube from "./components/topology/VCube";
 
 //Variveis dos nodos
 let quantidade = 8;
 let nodos;
 
+let iterative = false;
 
 let topologias = [
 	new Ring(),
@@ -77,36 +78,47 @@ function languageChange() {
 
 window.setup = () => {
 	textAlign(CENTER);
-	var url_string = window.location.href
-	var url = new URL(url_string);
-	var lang = url.searchParams.get("lang");
+	let url_string = window.location.href
+	let url = new URL(url_string);
+	let lang = url.searchParams.get("lang");
 	if(lang!=null){
 		language = lang;
 	}
-	let canvas = createCanvas(1200, 600);
+	if(url_string.includes("/iterative")){
+		let newQuantidade = url.searchParams.get("qtd");
+		if(newQuantidade!=null){
+			quantidade = newQuantidade;
+		}
+		iterative = true;
+		topologias = [new VCube(quantidade)];
+		topologia = topologias[0];
+	}
+	let canvas = createCanvas(1200, 1200);
 	canvas.parent('sketch-holder');
 	nodos = new Nodos(quantidade, topologia);
 	if(buttonContinua){
 		buttonContinua.remove();
 	}
-	buttonContinua = createButton(continueLang[language]);
-	buttonContinua.position(600, 550);
-	buttonContinua.mousePressed(continua);
 	if(buttonProximo){
 		buttonProximo.remove();
 	}
-	buttonProximo = createButton(proxLang[language]);
-	buttonProximo.position(600, 575);
-	buttonProximo.mousePressed(proximo);
-	languageSelect = createSelect();
-	languageSelect.position(0, 575);
-	languages.forEach(lang => {
-		languageSelect.option(lang.texto,lang.sigla);
-		if(lang.sigla == language){
-			languageSelect.selected(lang.sigla);
-		}
-	});
-	languageSelect.changed(languageChange);
+	if(!iterative){
+		buttonContinua = createButton(continueLang[language]);
+		buttonContinua.position(600, 550);
+		buttonContinua.mousePressed(continua);
+		buttonProximo = createButton(proxLang[language]);
+		buttonProximo.position(600, 575);
+		buttonProximo.mousePressed(proximo);
+		languageSelect = createSelect();
+		languageSelect.position(0, 575);
+		languages.forEach(lang => {
+			languageSelect.option(lang.texto,lang.sigla);
+			if(lang.sigla == language){
+				languageSelect.selected(lang.sigla);
+			}
+		});
+		languageSelect.changed(languageChange);
+	}
 }
 
 let desenhaNodo = (n1) => {
@@ -115,7 +127,7 @@ let desenhaNodo = (n1) => {
 	fill(c);
 	if (n1.falho)
 		fill(cfalha);
-	ellipse(n1.x, n1.y, 80);
+	let nodo = ellipse(n1.x, n1.y, 80);
 	c = color(0, 0, 0);
 	fill(c);
 	textSize(36);
@@ -189,7 +201,8 @@ let atualizaDados = (n1,nodos) => {
 	if(topologia.buscaResultados()){
 		nodosR.forEach(n2 => {
 			n2.n.forEach((n3,i) => {
-				n1.n[i] = n1.n[i]||n3;
+				if(i!=n1.i)
+					n1.n[i] = n1.n[i]||n3;
 			});
 		});
 	}
@@ -203,6 +216,19 @@ let obtemFalhas = (n1, nodos) => {
 		n1.n[n2.i] = n2.falho;
 	});
 	return falhou;
+}
+
+
+window.mousePressed = () => {
+	if(iterative){
+		nodos.nodo.forEach(n => {
+			if(dist(n.x,n.y,mouseX,mouseY)<=40){
+				console.log("clicou no "+n.i);
+				n.falho = !n.falho;
+				n.n[n.i]= !n.n[n.i];
+			}
+		});
+	}
 }
 
 window.draw = () => {
@@ -238,8 +264,10 @@ window.draw = () => {
 				else{
 					indiceFalha = 0;
 				}
-				nodos.get(6).falho = true;
-				nodos.get(6).n[6] = true;
+				if(!iterative){
+					nodos.get(6).falho = true;
+					nodos.get(6).n[6] = true;
+				}
 				topologia.fimDeRodada(indiceFalha,teveFalha);
 			}
 			volta = !volta;
@@ -263,5 +291,8 @@ window.draw = () => {
 		textSize(18);
 		text(texto, 600, 190);
 	}
+	c = color(0, 0, 0);
+	fill(c);
+	textSize(36);
 	nodos.getNodos(desenhaNodo);
 }

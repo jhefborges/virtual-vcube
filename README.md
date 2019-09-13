@@ -1,12 +1,13 @@
-# tg-parte1
-Trabalho de graduação parte 1
+# Trabalho de Graduacao
+-Representacao grafica de topologias para diagnostico
 
-# to build
-npm run build
+## to build
+-`npm run build`
 
-# to dev
-npm run watch
+## to dev
+-`npm run watch`
 
-# to build doc
-npm install jsdoc
-jsdoc -r -c .\src\conf.json .\src\ 
+## to generate doc
+-`npm install jsdoc`
+
+-`jsdoc -r -c .\src\conf.json .\src\` 
