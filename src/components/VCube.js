@@ -62,6 +62,9 @@ export default class VCube extends Base {
                 if (this.cluster == 2) {
                     rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 1000, 400);
                 }
+                if (this.cluster == 3) {
+                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 1000, 1000);
+                }
             }
         }
     };
@@ -71,13 +74,25 @@ export default class VCube extends Base {
     };
 
     posicaoX(indice, n) {
-        //indice = indice-1;
-        return  this.inicial + this.b * (parseInt(indice % 2) + 2 * parseInt(indice / 4)) + 50;
+        let x = this.inicial+50;
+        if(indice%8>=4){
+            x += 2*this.b;
+        }
+        if(indice%2==1){
+            x += this.b;
+        }
+        return x;
     };
 
     posicaoY(indice, n) {
-        //indice = indice -1;
-        return this.inicial + this.a * (parseInt(indice / 2) - 2 * parseInt(indice / 4));
+        let y = this.inicial;
+        if(indice%16>=8){
+            y += 2*this.a;
+        }
+        if(indice%4>=2){
+            y += this.a;
+        }
+        return y;
     };
 
     formato(){

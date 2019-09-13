@@ -43,6 +43,13 @@ export default class Base {
 
     desenhaCluster(){};
 
+
+    /**
+     *Retorna o mapeamento dos pontos na tela
+     * @instance
+     * @returns O valor cluster ou elipse
+     * @memberof Base
+     */
     formato(){
         return "elipse";
     }
