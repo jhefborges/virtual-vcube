@@ -153,19 +153,33 @@ let envia = (n1, nodos) => {
 		let novox = (n1.x - n2.x) / rounds;
 		let novoy = (n1.y - n2.y) / rounds;
 		//Deslocamento para desviar de nodos
-		if(topologia.formato() == "cluster"&&novox!=0&&Math.abs(n1.x - n2.x)>300){
-			if(rodada/rounds<0.5){
-				curveY = (200*rodada/rounds);
+		if(topologia.formato() == "cluster"){
+			if(novox!=0&&Math.abs(n1.x - n2.x)>=300){
+				if(rodada/rounds<0.5){
+					curveY = (200*rodada/rounds);
+				}
+				else{
+					curveY = (200*(rounds-rodada)/rounds);
+				}
+				//Para sempre passar dentro do cluster
+				if(n1.i%4>1){
+					curveY = -curveY;
+				}
 			}
-			else{
-				curveY = (200*(rounds-rodada)/rounds);
-			}
-			//Para sempre passar dentro do cluster
-			if(n1.i%4>1){
-				curveY = -curveY;
+			if(novoy!=0&&Math.abs(n1.y - n2.y)>=300){
+				if(rodada/rounds<0.5){
+					curveX = (200*rodada/rounds);
+				}
+				else{
+					curveX = (200*(rounds-rodada)/rounds);
+				}
+				//Para sempre passar dentro do cluster
+				if(n1.i%2==1){
+					curveX = -curveX;
+				}
 			}
 		}
-		ellipse(n1.x - novox * rodada, n1.y - novoy * rodada+curveY, 30);
+		ellipse(n1.x - novox * rodada+curveX, n1.y - novoy * rodada+curveY, 30);
 	});
 }
 
@@ -179,16 +193,30 @@ let recebe = (n1, nodos) => {
 		let novox = (n1.x - n2.x) / rounds;
 		let novoy = (n1.y - n2.y) / rounds;
 		//Deslocamento para desviar de nodos
-		if(topologia.formato() == "cluster"&&novox!=0&&Math.abs(n1.x - n2.x)>300){
-			if(rodada/rounds<0.5){
-				curveY = (200*rodada/rounds);
+		if(topologia.formato() == "cluster"){
+			if(novox!=0&&Math.abs(n1.x - n2.x)>=300){
+				if(rodada/rounds<0.5){
+					curveY = (200*rodada/rounds);
+				}
+				else{
+					curveY = (200*(rounds-rodada)/rounds);
+				}
+				//Para sempre passar dentro do cluster
+				if(n1.i%4>1){
+					curveY = -curveY;
+				}
 			}
-			else{
-				curveY = (200*(rounds-rodada)/rounds);
-			}
-			//Para sempre passar dentro do cluster
-			if(n1.i%4>1){
-				curveY = -curveY;
+			if(novoy!=0&&Math.abs(n1.y - n2.y)>=300){
+				if(rodada/rounds<0.5){
+					curveX = (200*rodada/rounds);
+				}
+				else{
+					curveX = (200*(rounds-rodada)/rounds);
+				}
+				//Para sempre passar dentro do cluster
+				if(n1.i%2==1){
+					curveX = -curveX;
+				}
 			}
 		}
 		rect(n1.x - novox * (rounds - rodada)-15+curveX, n1.y - novoy * (rounds - rodada)-15+curveY, 30, 30);
