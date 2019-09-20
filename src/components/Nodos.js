@@ -23,10 +23,12 @@ export default class Nodos {
                 "x": x,
                 "y": y,
                 "falho": false,
-                "n": []
+                "n": [],
+                "nr":[]
             };
             for (let j = 0; j < n; j++) {
                 this.nodo[i].n[j] = false;
+                this.nodo[i].nr[j] = 0;
             }
         }
     }

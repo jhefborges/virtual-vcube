@@ -8,39 +8,48 @@ import Base from './Base';
  * @extends {Base}
  */
 export default class VCube extends Base {
-    
+
     constructor(quantidade) {
         super();
         this.quantidade = quantidade;
+        this.grande = quantidade > 8;
         this.cluster = 0;
         this.indice = 0;
         this.clusterMaximo = Math.log2(this.quantidade);
-       
+
         this.a = 300;
         this.b = 300;
         this.inicial = 100;
 
         //Definições da ling
         this.textos = {};
-        this.textos.br = [];/*  [{
-                "i": 0,
-                "text": "TOPOLOGIA GOSSIP:\nTodos os nodos estão sem falhas"
-            },
-            {
-                "i": 1,
-                "text": "O nodo 6 falha"
-            },
-            {
-                "i": 3,
-                "text": "Os nodos testam o nodos \nescolhidos aleatoriamente a cada \nrodada"
-            }
-        ]; */
+        this.textos.br = [];
+        /*  [{
+                        "i": 0,
+                        "text": "TOPOLOGIA GOSSIP:\nTodos os nodos estão sem falhas"
+                    },
+                    {
+                        "i": 1,
+                        "text": "O nodo 6 falha"
+                    },
+                    {
+                        "i": 3,
+                        "text": "Os nodos testam o nodos \nescolhidos aleatoriamente a cada \nrodada"
+                    }
+                ]; */
         this.textoFinaliza = {};
         this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
         this.titulos = {};
         this.titulos.br = "Topologia VCube";
+        for (let j = 0; j < this.clusterMaximo+1; j++)
+            for (let i = 0; i < 4; i++)
+                console.log(i, j, this.cis_r(i, j + 1));
     }
 
+
+    g(n){
+        return this.grande?n/2:n;
+    }
 
     /**
      * Metodo que fornece informacoes para desenhar cluster
@@ -48,54 +57,60 @@ export default class VCube extends Base {
      * @param {*} nodos
      * @memberof VCube
      */
-    desenhaCluster(nodos){
+    desenhaCluster(nodos) {
         var c = color(0, 123, 122);
         fill(c);
         for (let i = 0; i < this.quantidade; i++) {
             if ((i % (Math.pow(2, this.cluster + 1)) == 0)) {
                 if (this.cluster == 0) {
-                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 400, 100);
+                    rect(nodos.get(i).x - this.g(50), nodos.get(i).y - this.g(50), this.g(400), this.g(100));
                 }
                 if (this.cluster == 1) {
-                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 400, 400);
+                    rect(nodos.get(i).x - this.g(50), nodos.get(i).y - this.g(50), this.g(400), this.g(400));
                 }
                 if (this.cluster == 2) {
-                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 1000, 400);
+                    rect(nodos.get(i).x - this.g(50), nodos.get(i).y - this.g(50), this.g(1000), this.g(400));
                 }
                 if (this.cluster == 3) {
-                    rect(nodos.get(i).x - 50, nodos.get(i).y - 50, 1000, 1000);
+                    rect(nodos.get(i).x - this.g(50), nodos.get(i).y - this.g(50), this.g(1000), this.g(1000));
+                }
+                if (this.cluster == 4) {
+                    rect(nodos.get(i).x - this.g(50), nodos.get(i).y - this.g(50), this.g(2200), this.g(1000));
                 }
             }
         }
     };
 
-	buscaResultados(){
+    buscaResultados() {
         return true;
     };
 
     posicaoX(indice, n) {
-        let x = this.inicial+50;
-        if(indice%8>=4){
-            x += 2*this.b;
+        let x = this.inicial + 50;
+        if (indice % 32 >= 16) {
+            x += 4 * this.b;
         }
-        if(indice%2==1){
+        if (indice % 8 >= 4) {
+            x += 2 * this.b;
+        }
+        if (indice % 2 == 1) {
             x += this.b;
         }
-        return x;
+        return this.g(x);
     };
 
     posicaoY(indice, n) {
         let y = this.inicial;
-        if(indice%16>=8){
-            y += 2*this.a;
+        if (indice % 16 >= 8) {
+            y += 2 * this.a;
         }
-        if(indice%4>=2){
+        if (indice % 4 >= 2) {
             y += this.a;
         }
-        return y;
+        return this.g(y);
     };
 
-    formato(){
+    formato() {
         return "cluster";
     }
 
@@ -104,29 +119,27 @@ export default class VCube extends Base {
             this.cluster = (this.cluster + 1) % this.clusterMaximo;
             this.indice = 0;
         } else {
-            if(this.indice+1 >= Math.pow(2,this.cluster)){
-                this.indice =0;   
-                this.cluster = (this.cluster + 1) % this.clusterMaximo;    
-            }
-            else{
-                this.indice +=1;
+            if (this.indice + 1 >= Math.pow(2, this.cluster)) {
+                this.indice = 0;
+                this.cluster = (this.cluster + 1) % this.clusterMaximo;
+            } else {
+                this.indice += 1;
             }
         }
     }
 
-    cis(nodo,cluster,indice){
-        return this.cis_r(nodo,cluster+1)[indice];
+    cis(nodo, cluster, indice) {
+        return this.cis_r(nodo, cluster + 1)[indice];
     }
 
-    cis_r(nodo,cluster){
-        //console.log(nodo,cluster-1);
-        let xor = nodo ^ Math.pow(2,cluster-1);
-	    let j;
-        let list=[];
+    cis_r(nodo, cluster) {
+        let xor = nodo ^ Math.pow(2, cluster - 1);
+        let j;
+        let list = [];
 
-	    list.push(xor%this.quantidade);
+        list.push(xor % this.quantidade);
 
-        for (j=1; j<=cluster-1; j++) {
+        for (j = 1; j <= cluster - 1; j++) {
             let other = this.cis_r(xor, j);
             other.forEach(n => {
                 list.push(n);
@@ -135,24 +148,40 @@ export default class VCube extends Base {
         return list;
     }
 
-    nodosEnviar(n1, nodos) {   
+    nodosEnviar(n1, nodos) {
         let n2 = nodos.get(this.cis(n1.i, this.cluster, this.indice));
         if (this.indice == 0)
             return [n2];
-        if (nodos.get(this.cis(n1.i, this.cluster, this.indice - 1)).falho)
-            return [n2];
-        return [];
+        let list = [];
+        for (let i = 0; i < this.quantidade; i++) {
+            list = [n2];
+            //Pegando o primeiro nodo que testa o nao falho
+            let testador = nodos.get(i);
+            let testado = nodos.get(this.cis(i, this.cluster, this.indice - 1));
+            if (testado.i === n2.i && !testador.falho) {
+                return [];
+            }
+        }
+        return list;
     }
 
     nodosReceber(n1, nodos) {
         let n2 = nodos.get(this.cis(n1.i, this.cluster, this.indice));
+        let list = [];
         if (!n2.falho) {
             if (this.indice == 0)
                 return [n2];
-            if (nodos.get(this.cis(n1.i, this.cluster, this.indice - 1)).falho)
-                return [n2];
+            for (let i = 0; i < this.quantidade; i++) {
+                list = [n2];
+                //Pegando o primeiro nodo que testa o nao falho
+                let testador = nodos.get(i);
+                let testado = nodos.get(this.cis(i, this.cluster, this.indice - 1));
+                if (testado.i === n2.i && !testador.falho) {
+                    return [];
+                }
+            }
         }
-        return [];
+        return list;
     }
 
     getTitulo(language) {

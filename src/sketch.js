@@ -6,6 +6,7 @@ import VCube from "./components/topology/VCube";
 
 //Variveis dos nodos
 let quantidade = 8;
+let grande = false;
 let nodos;
 
 let iterative = false;
@@ -76,6 +77,10 @@ function languageChange() {
 	reset();
 }
 
+function g(n){
+	return grande?n/2:n;
+}
+
 window.setup = () => {
 	textAlign(CENTER);
 	let url_string = window.location.href
@@ -92,8 +97,10 @@ window.setup = () => {
 		iterative = true;
 		topologias = [new VCube(quantidade)];
 		topologia = topologias[0];
+		if(quantidade>8)
+			grande = true
 	}
-	let canvas = createCanvas(1200, 1200);
+	let canvas = createCanvas(1200, 600);
 	canvas.parent('sketch-holder');
 	nodos = new Nodos(quantidade, topologia);
 	if(buttonContinua){
@@ -127,12 +134,12 @@ let desenhaNodo = (n1) => {
 	fill(c);
 	if (n1.falho)
 		fill(cfalha);
-	let nodo = ellipse(n1.x, n1.y, 80);
+	let nodo = ellipse(n1.x, n1.y, g(80));
 	c = color(0, 0, 0);
 	fill(c);
-	textSize(36);
+	textSize(g(36));
 	text(n1.i, n1.x, n1.y - 2);
-	textSize(18);
+	textSize(g(18));
 	let falhos = "";
 	for (let i = 0; i < nodos.n; i++) {
 		if (n1.n[i]) {
@@ -140,7 +147,7 @@ let desenhaNodo = (n1) => {
 		}
 	}
 	if (!n1.falho)
-		text(falhos, n1.x, n1.y + 18);
+		text(falhos, n1.x, n1.y + g(18));
 }
 
 let envia = (n1, nodos) => {
@@ -154,24 +161,24 @@ let envia = (n1, nodos) => {
 		let novoy = (n1.y - n2.y) / rounds;
 		//Deslocamento para desviar de nodos
 		if(topologia.formato() == "cluster"){
-			if(novox!=0&&Math.abs(n1.x - n2.x)>=300){
+			if(novox!=0&&Math.abs(n1.x - n2.x)>g(300)){
 				if(rodada/rounds<0.5){
-					curveY = (200*rodada/rounds);
+					curveY = (g(200)*rodada/rounds);
 				}
 				else{
-					curveY = (200*(rounds-rodada)/rounds);
+					curveY = (g(200)*(rounds-rodada)/rounds);
 				}
 				//Para sempre passar dentro do cluster
 				if(n1.i%4>1){
 					curveY = -curveY;
 				}
 			}
-			if(novoy!=0&&Math.abs(n1.y - n2.y)>=300){
+			if(novoy!=0&&Math.abs(n1.y - n2.y)>g(300)){
 				if(rodada/rounds<0.5){
-					curveX = (200*rodada/rounds);
+					curveX = (g(200)*rodada/rounds);
 				}
 				else{
-					curveX = (200*(rounds-rodada)/rounds);
+					curveX = (g(200)*(rounds-rodada)/rounds);
 				}
 				//Para sempre passar dentro do cluster
 				if(n1.i%2==1){
@@ -194,24 +201,24 @@ let recebe = (n1, nodos) => {
 		let novoy = (n1.y - n2.y) / rounds;
 		//Deslocamento para desviar de nodos
 		if(topologia.formato() == "cluster"){
-			if(novox!=0&&Math.abs(n1.x - n2.x)>=300){
+			if(novox!=0&&Math.abs(n1.x - n2.x)>g(300)){
 				if(rodada/rounds<0.5){
-					curveY = (200*rodada/rounds);
+					curveY = (g(200)*rodada/rounds);
 				}
 				else{
-					curveY = (200*(rounds-rodada)/rounds);
+					curveY = (g(200)*(rounds-rodada)/rounds);
 				}
 				//Para sempre passar dentro do cluster
 				if(n1.i%4>1){
 					curveY = -curveY;
 				}
 			}
-			if(novoy!=0&&Math.abs(n1.y - n2.y)>=300){
+			if(novoy!=0&&Math.abs(n1.y - n2.y)>g(300)){
 				if(rodada/rounds<0.5){
-					curveX = (200*rodada/rounds);
+					curveX = (g(200)*rodada/rounds);
 				}
 				else{
-					curveX = (200*(rounds-rodada)/rounds);
+					curveX = (g(200)*(rounds-rodada)/rounds);
 				}
 				//Para sempre passar dentro do cluster
 				if(n1.i%2==1){
@@ -230,7 +237,11 @@ let atualizaDados = (n1,nodos) => {
 		nodosR.forEach(n2 => {
 			n2.n.forEach((n3,i) => {
 				if(i!=n1.i)
-					n1.n[i] = n1.n[i]||n3;
+					if(n1.nr[i]<n2.nr[i])
+						if(n1.n[i]!=n3){
+							n1.n[i] = n3;
+							n1.nr[i] = n2.nr[i];
+						}
 			});
 		});
 	}
@@ -242,6 +253,7 @@ let obtemFalhas = (n1, nodos) => {
 	nodosR.forEach(n2 => {
 		falhou = falhou || n2.falho;
 		n1.n[n2.i] = n2.falho;
+		n1.nr[n2.i] = count;
 	});
 	return falhou;
 }
@@ -250,8 +262,7 @@ let obtemFalhas = (n1, nodos) => {
 window.mousePressed = () => {
 	if(iterative){
 		nodos.nodo.forEach(n => {
-			if(dist(n.x,n.y,mouseX,mouseY)<=40){
-				console.log("clicou no "+n.i);
+			if(dist(n.x,n.y,mouseX,mouseY)<=40){				
 				n.falho = !n.falho;
 				n.n[n.i]= !n.n[n.i];
 			}
@@ -322,5 +333,9 @@ window.draw = () => {
 	c = color(0, 0, 0);
 	fill(c);
 	textSize(36);
+	nodos.nodo.forEach(n => {
+		console.log(n);
+		
+	});
 	nodos.getNodos(desenhaNodo);
 }
