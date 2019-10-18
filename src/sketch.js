@@ -185,36 +185,38 @@ let envia = (n1, nodos) => {
 	fill(c);
 	let nodosE = topologia.nodosEnviar(n1, nodos, indiceFalha);
 	nodosE.forEach(n2 => {
-		let curveX = 0;
-		let curveY = 0;
-		let novox = (n1.x - n2.x) / rounds;
-		let novoy = (n1.y - n2.y) / rounds;
-		//Deslocamento para desviar de nodos
-		if (topologia.formato() == "cluster") {
-			if (novox != 0 && Math.abs(n1.x - n2.x) > g(300)) {
-				if (rodada / rounds < 0.5) {
-					curveY = (g(200) * rodada / rounds);
-				} else {
-					curveY = (g(200) * (rounds - rodada) / rounds);
+		if(n2 !== undefined){
+			let curveX = 0;
+			let curveY = 0;
+			let novox = (n1.x - n2.x) / rounds;
+			let novoy = (n1.y - n2.y) / rounds;
+			//Deslocamento para desviar de nodos
+			if (topologia.formato() == "cluster") {
+				if (novox != 0 && Math.abs(n1.x - n2.x) > g(300)) {
+					if (rodada / rounds < 0.5) {
+						curveY = (g(200) * rodada / rounds);
+					} else {
+						curveY = (g(200) * (rounds - rodada) / rounds);
+					}
+					//Para sempre passar dentro do cluster
+					if (n1.i % 4 > 1) {
+						curveY = -curveY;
+					}
 				}
-				//Para sempre passar dentro do cluster
-				if (n1.i % 4 > 1) {
-					curveY = -curveY;
+				if (novoy != 0 && Math.abs(n1.y - n2.y) > g(300)) {
+					if (rodada / rounds < 0.5) {
+						curveX = (g(200) * rodada / rounds);
+					} else {
+						curveX = (g(200) * (rounds - rodada) / rounds);
+					}
+					//Para sempre passar dentro do cluster
+					if (n1.i % 2 == 1) {
+						curveX = -curveX;
+					}
 				}
 			}
-			if (novoy != 0 && Math.abs(n1.y - n2.y) > g(300)) {
-				if (rodada / rounds < 0.5) {
-					curveX = (g(200) * rodada / rounds);
-				} else {
-					curveX = (g(200) * (rounds - rodada) / rounds);
-				}
-				//Para sempre passar dentro do cluster
-				if (n1.i % 2 == 1) {
-					curveX = -curveX;
-				}
-			}
+			ellipse(n1.x - novox * rodada + curveX, n1.y - novoy * rodada + curveY, g(30));
 		}
-		ellipse(n1.x - novox * rodada + curveX, n1.y - novoy * rodada + curveY, g(30));
 	});
 }
 
@@ -261,14 +263,16 @@ let atualizaDados = (n1, nodos) => {
 	let nodosR = topologia.nodosEnviar(n1, nodos, indiceFalha);
 	if (topologia.buscaResultados()) {
 		nodosR.forEach(n2 => {
-			n2.n.forEach((n3, i) => {
-				if (i != n1.i)
-					if (n1.nr[i] < n2.nr[i])
-						if (n1.n[i] != n3) {
-							n1.n[i] = n3;
-							n1.nr[i] = n2.nr[i];
-						}
-			});
+			if(n2 !== undefined){
+				n2.n.forEach((n3, i) => {
+					if (i != n1.i)
+						if (n1.nr[i] < n2.nr[i])
+							if (n1.n[i] != n3) {
+								n1.n[i] = n3;
+								n1.nr[i] = n2.nr[i];
+							}
+				});
+			}
 		});
 	}
 }
@@ -277,9 +281,11 @@ let obtemFalhas = (n1, nodos) => {
 	let nodosR = topologia.nodosEnviar(n1, nodos, indiceFalha);
 	let falhou = false;
 	nodosR.forEach(n2 => {
-		falhou = falhou || n2.falho;
-		n1.n[n2.i] = n2.falho;
-		n1.nr[n2.i] = count;
+		if(n2 !== undefined){
+			falhou = falhou || n2.falho;
+			n1.n[n2.i] = n2.falho;
+			n1.nr[n2.i] = count;
+		}
 	});
 	return falhou;
 }
@@ -312,7 +318,6 @@ window.draw = () => {
 			} else {
 				nodos.getNodosSemFalha(recebe);
 			}
-			''
 			rodada = rodada + 1;
 			if (rodada == rounds) {
 
@@ -360,10 +365,6 @@ window.draw = () => {
 		c = color(0, 0, 0);
 		fill(c);
 		textSize(36);
-		nodos.nodo.forEach(n => {
-			console.log(n);
-
-		});
 		nodos.getNodos(desenhaNodo);
 	} else {
 		let c = color(180, 216, 231);

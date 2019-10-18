@@ -41,7 +41,9 @@ export default class Nodos {
      * @memberof Nodos
      */
     get(i) {
-        return this.nodo[(this.n+i)%this.n];
+        //return this.nodo[(this.n+i)%this.n];
+        //console.log(i);
+        return this.nodo[i];
     }
 
     /**

@@ -15,8 +15,11 @@ export default class VCube extends Base {
         this.grande = quantidade > 8;
         this.cluster = 0;
         this.indice = 0;
-        this.clusterMaximo = Math.log2(this.quantidade);
-
+        this.clusterMaximo = Math.floor(Math.log2(this.quantidade-1))+1;
+        this.quantidadeBase = Math.pow(2,this.clusterMaximo);
+        console.log("Quantidade",this.quantidade);
+        console.log("ClusterMaximo",this.clusterMaximo);
+        console.log("QuantidadeBase",this.quantidadeBase);
         this.a = 300;
         this.b = 300;
         this.inicial = 100;
@@ -41,9 +44,9 @@ export default class VCube extends Base {
         this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
         this.titulos = {};
         this.titulos.br = "Topologia VCube";
-        for (let j = 0; j < this.clusterMaximo+1; j++)
-            for (let i = 0; i < 4; i++)
-                console.log(i, j, this.cis_r(i, j + 1));
+        /* for (let j = 0; j < this.clusterMaximo; j++)
+            for (let i = 0; i < quantidade; i++)
+                console.log(i, j, this.cis_r(i, j + 1)); */
     }
 
 
@@ -137,7 +140,7 @@ export default class VCube extends Base {
         let j;
         let list = [];
 
-        list.push(xor % this.quantidade);
+        list.push(xor % this.quantidadeBase);
 
         for (j = 1; j <= cluster - 1; j++) {
             let other = this.cis_r(xor, j);
@@ -153,13 +156,15 @@ export default class VCube extends Base {
         if (this.indice == 0)
             return [n2];
         let list = [];
-        for (let i = 0; i < this.quantidade; i++) {
-            list = [n2];
-            //Pegando o primeiro nodo que testa o nao falho
-            let testador = nodos.get(i);
-            let testado = nodos.get(this.cis(i, this.cluster, this.indice - 1));
-            if (testado.i === n2.i && !testador.falho) {
-                return [];
+        if(n2 !== undefined){
+            for (let i = 0; i < this.quantidade; i++) {
+                list = [n2];
+                //Pegando o primeiro nodo que testa o nao falho
+                let testador = nodos.get(i);
+                let testado = nodos.get(this.cis(i, this.cluster, this.indice - 1));
+                if (testado !== undefined && testado.i === n2.i && !testador.falho) {
+                    return [];
+                }
             }
         }
         return list;
@@ -168,7 +173,7 @@ export default class VCube extends Base {
     nodosReceber(n1, nodos) {
         let n2 = nodos.get(this.cis(n1.i, this.cluster, this.indice));
         let list = [];
-        if (!n2.falho) {
+        if (n2 !== undefined && !n2.falho) {
             if (this.indice == 0)
                 return [n2];
             for (let i = 0; i < this.quantidade; i++) {
@@ -176,7 +181,7 @@ export default class VCube extends Base {
                 //Pegando o primeiro nodo que testa o nao falho
                 let testador = nodos.get(i);
                 let testado = nodos.get(this.cis(i, this.cluster, this.indice - 1));
-                if (testado.i === n2.i && !testador.falho) {
+                if (testado !== undefined && testado.i === n2.i && !testador.falho) {
                     return [];
                 }
             }

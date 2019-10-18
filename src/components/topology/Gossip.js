@@ -64,15 +64,15 @@ export default class Gossip extends Base {
   }
 
   nodosEnviar(n1, nodos) {
-    let n2 = nodos.get(n1.i+this.ramdomValues[n1.i][0]);
-    let n3 = nodos.get(n1.i+this.ramdomValues[n1.i][1]);
+    let n2 = nodos.get((n1.i+this.ramdomValues[n1.i][0])%this.quantidade);
+    let n3 = nodos.get((n1.i+this.ramdomValues[n1.i][1])%this.quantidade);
     return [n2,n3];
   }
 
   nodosReceber(n1, nodos) {
     let retorno = [];
-    let n2 = nodos.get(n1.i+this.ramdomValues[n1.i][0]);
-    let n3 = nodos.get(n1.i+this.ramdomValues[n1.i][1]);
+    let n2 = nodos.get((n1.i+this.ramdomValues[n1.i][0])%this.quantidade);
+    let n3 = nodos.get((n1.i+this.ramdomValues[n1.i][1])%this.quantidade);
     if(!n2.falho){
         retorno.push(n2);
     }

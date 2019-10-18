@@ -65,16 +65,16 @@ export default class Ring extends Base {
     }
 
 	nodosEnviar(n1, nodos, indiceFalha) {
-		if (indiceFalha == 0 || nodos.get(n1.i + indiceFalha).falho) {
-			return [nodos.get(n1.i + indiceFalha + 1)];
+		if (indiceFalha == 0 || nodos.get((n1.i + indiceFalha)%nodos.n).falho) {
+			return [nodos.get((n1.i + indiceFalha + 1)%nodos.n)];
 		} else {
 			return [];
 		}
 	}
 
 	nodosReceber(n1, nodos, indiceFalha) {
-		let n2 = nodos.get(n1.i+indiceFalha+1);
-		if (!n2.falho&&(indiceFalha == 0||nodos.get(n1.i + indiceFalha).falho))
+		let n2 = nodos.get((n1.i+indiceFalha+1)%nodos.n);
+		if (!n2.falho&&(indiceFalha == 0||nodos.get((n1.i + indiceFalha)%nodos.n).falho))
 			return [n2];
 		return [];
 	}
