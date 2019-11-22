@@ -7,7 +7,7 @@ export default class Ring extends Base {
 		this.textos = {};
 		this.textos.br = [{
 				"i": 0,
-				"text": "TOPOLOGIA ANEL:\nTodos os nodos est\u00e3o sem falhas"
+				"text": "ALGORITMO EM ANEL:\nTodos os nodos est\u00e3o sem falhas"
 			},
 			{
 				"i": 1,

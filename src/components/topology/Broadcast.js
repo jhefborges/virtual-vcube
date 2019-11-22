@@ -7,7 +7,7 @@ export default class BroadCast extends Base {
     this.textos = {};
     this.textos.br = [{
         "i": 0,
-        "text": "TOPOLOGIA BROADCAST:\nTodos os nodos estão sem falhas"
+        "text": "ALGORITMO EM BROADCAST:\nTodos os nodos est\u00e3o sem falhas"
       },
       {
         "i": 1,
@@ -19,7 +19,7 @@ export default class BroadCast extends Base {
       },
       {
         "i": 5,
-        "text": "A latência é de 1 rodada \nde testes e são executados N*N \ntestes por intervalo"
+        "text": "A lat\u00eancia \u00e9 de 1 rodada \nde testes e são executados N*N \ntestes por intervalo"
       },
     ]
     this.titulos = {};

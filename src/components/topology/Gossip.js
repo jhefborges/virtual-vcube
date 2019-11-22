@@ -19,7 +19,7 @@ export default class Gossip extends Base {
     this.textos = {};
     this.textos.br = [{
         "i": 0,
-        "text": "TOPOLOGIA GOSSIP:\nTodos os nodos estão sem falhas"
+        "text": "ALGORITMO GOSSIP:\nTodos os nodos est\u00e3o sem falhas"
       },
       {
         "i": 1,
@@ -31,7 +31,7 @@ export default class Gossip extends Base {
       }
     ];
     this.textoFinaliza = {};
-    this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
+    this.textoFinaliza.br = "Ap\u00f3s um n\u00famero de rodadas há\numa alta probabilidade de todos os\nnodos descobrirem o evento";
     this.titulos = {};
     this.titulos.br = "Topologia Gossip";
   }

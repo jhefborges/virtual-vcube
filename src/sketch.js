@@ -335,7 +335,9 @@ window.draw = () => {
 					} else {
 						indiceFalha = 0;
 					}
-					if (!iterative) {
+					console.log("Topologia é VCube",topologia instanceof VCube);
+					console.log("Rodada",count);
+					if (!iterative && (count > 4 || ! (topologia instanceof VCube ) )) {
 						nodos.get(6).falho = true;
 						nodos.get(6).n[6] = true;
 					}

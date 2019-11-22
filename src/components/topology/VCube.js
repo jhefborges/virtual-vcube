@@ -26,20 +26,32 @@ export default class VCube extends Base {
 
         //Definições da ling
         this.textos = {};
-        this.textos.br = [];
-        /*  [{
+        this.textos.br =
+        [{
                         "i": 0,
-                        "text": "TOPOLOGIA GOSSIP:\nTodos os nodos estão sem falhas"
+                        "text": "ALGORITMO VCUBE:\nTodos os nodos est\u00e3o sem falhas"
                     },
                     {
-                        "i": 1,
+                        "i": 5,
                         "text": "O nodo 6 falha"
                     },
                     {
-                        "i": 3,
-                        "text": "Os nodos testam o nodos \nescolhidos aleatoriamente a cada \nrodada"
+                        "i": 7,
+                        "text": "O nodo 7 testa o nodo 6 falho \ne descobre o evento"
+                    },
+                    {
+                        "i": 9,
+                        "text": "O nodo 4 testa o nodo 6 falho e\no nodo 5 testa o nodo 7 sem falha\ne ambos descobrem o evento"
+                    },
+                    {
+                        "i":11,
+                        "text": "O nodo 4 testa o nodo 7 sem falha"
+                    },
+                    {
+                        "i":13,
+                        "text": "A lat\u00eancia \u00e9, no m\u00e1ximo, logN rodadas \nde testes e s\u00e3o executados N \ntestes por intervalo"
                     }
-                ]; */
+                ];
         this.textoFinaliza = {};
         this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
         this.titulos = {};
