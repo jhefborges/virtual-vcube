@@ -1,5 +1,12 @@
 import Base from './Base';
 
+/**
+ *Classe que implementa o Gossip
+ *
+ * @export
+ * @class Gossip
+ * @extends {Base}
+ */
 export default class Gossip extends Base {
 
   constructor(quantidade) {

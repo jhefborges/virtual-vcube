@@ -1,5 +1,12 @@
 import Base from './Base';
 
+/**
+ *Classe que implementa o BroadCast
+ *
+ * @export
+ * @class BroadCast
+ * @extends {Base}
+ */
 export default class BroadCast extends Base {
 
   constructor() {

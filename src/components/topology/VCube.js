@@ -1,7 +1,7 @@
 import Base from './Base';
 
 /**
- *
+ *Classe que implementa o VCube
  *
  * @export
  * @class VCube
@@ -49,11 +49,11 @@ export default class VCube extends Base {
                     },
                     {
                         "i":13,
-                        "text": "A lat\u00eancia \u00e9, no m\u00e1ximo, logN rodadas \nde testes e s\u00e3o executados N \ntestes por intervalo"
+                        "text": "A lat\u00eancia \u00e9, no m\u00e1ximo, logN\nrodadas de testes e\ns\u00e3o executados N testes por \nintervalo"
                     }
                 ];
         this.textoFinaliza = {};
-        this.textoFinaliza.br = "Após um número de rodadas há \numa alta probabilidade de todos os \nnodos descobrirem o evento";
+        this.textoFinaliza.br = "";
         this.titulos = {};
         this.titulos.br = "Topologia VCube";
         /* for (let j = 0; j < this.clusterMaximo; j++)
@@ -66,12 +66,6 @@ export default class VCube extends Base {
         return this.grande?n/2:n;
     }
 
-    /**
-     * Metodo que fornece informacoes para desenhar cluster
-     *
-     * @param {*} nodos
-     * @memberof VCube
-     */
     desenhaCluster(nodos) {
         var c = color(0, 123, 122);
         fill(c);

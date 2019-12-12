@@ -5,6 +5,10 @@ import Gossip from "./components/topology/Gossip";
 import VCube from "./components/topology/VCube";
 
 
+/**
+ * @file Arquivo que executa a funções da biblioteca P5.js 
+ */
+
 //Variaveis da legenda
 let legenda = true;
 
@@ -47,10 +51,10 @@ let languages = [{
 		"texto": "Portugues",
 		"sigla": "br"
 	},
-	{
+	/* {
 		"texto": "English",
 		"sigla": "en"
-	}
+	} */
 ]
 let language = "br";
 
@@ -71,6 +75,10 @@ var para = (textoValor) => {
 
 let buttonContinua, buttonProximo, languageSelect;
 
+/**
+ *Percorre a proxima topologia
+ *
+ */
 var proximo = () => {
 	indTopologia = (indTopologia + 1) % topologias.length;
 	topologia = topologias[indTopologia];
@@ -158,6 +166,11 @@ window.setup = () => {
 	}
 }
 
+/**
+ * Desenha nodo, dada topologia e nodo
+ *
+ * @param {*} n1 nodo
+ */
 let desenhaNodo = (n1) => {
 	let c = color(180, 216, 231);
 	let cfalha = color(245, 195, 194);
@@ -180,6 +193,13 @@ let desenhaNodo = (n1) => {
 		text(falhos, n1.x, n1.y + g(18));
 }
 
+
+/**
+ * Envia mensagem de n1 para nodos
+ *
+ * @param {*} n1 nodo que envia
+ * @param {*} nodos nodos a serem enviados
+ */
 let envia = (n1, nodos) => {
 	let c = color(0, 255, 0);
 	fill(c);
@@ -220,6 +240,13 @@ let envia = (n1, nodos) => {
 	});
 }
 
+
+/**
+ * Recebe mensagem de n1 para nodos
+ *
+ * @param {*} n1 nodo que recebe
+ * @param {*} nodos nodos que responderam
+ */
 let recebe = (n1, nodos) => {
 	let c = color(245, 186, 0);
 	fill(c);
@@ -259,6 +286,12 @@ let recebe = (n1, nodos) => {
 }
 
 
+/**
+ * Atualiza dados se a topologia possuir essa função
+ *
+ * @param {*} n1 nodo
+ * @param {*} nodos nodos que busca dados para atualizar
+ */
 let atualizaDados = (n1, nodos) => {
 	let nodosR = topologia.nodosEnviar(n1, nodos, indiceFalha);
 	if (topologia.buscaResultados()) {
@@ -277,6 +310,14 @@ let atualizaDados = (n1, nodos) => {
 	}
 }
 
+
+/**
+ * Obtem falhas
+ *
+ * @param {*} n1 nodo
+ * @param {*} nodos nodos testados
+ * @returns true se obteve falha, senão false
+ */
 let obtemFalhas = (n1, nodos) => {
 	let nodosR = topologia.nodosEnviar(n1, nodos, indiceFalha);
 	let falhou = false;
@@ -345,14 +386,16 @@ window.draw = () => {
 				}
 				volta = !volta;
 				rodada = 0;
-				let texto = topologia.getTexto(count, language);
-				let finaliza = topologia.finaliza(nodos, language);
-				if (texto) {
-					para(texto.text);
-				}
-				if (finaliza) {
-					para(finaliza);
-				}
+				if(!iterative){
+					let texto = topologia.getTexto(count, language);
+					let finaliza = topologia.finaliza(nodos, language);
+					if (texto) {
+						para(texto.text);
+					}
+					if (finaliza) {
+						para(finaliza);
+					}
+				}	
 				count++;
 			}
 		} else {

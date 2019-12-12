@@ -29,8 +29,8 @@
     "jsdoc": "^3.6.3"
   },
   "scripts": {
-    "build": "browserify src/Sketch.js -o dist/sketch.js",
-    "watch": "watchify src/Sketch.js -o dist/sketch.js -v"
+    "build": "browserify src/Sketch.js -o dist/virtual-vcube.js",
+    "watch": "watchify src/Sketch.js -o dist/virtual-vcube.js -v"
   },
   "author": "",
   "license": "ISC"

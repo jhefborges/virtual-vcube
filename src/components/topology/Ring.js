@@ -1,5 +1,12 @@
 import Base from './Base';
 
+/**
+ *Classe que implementa o Ring
+ *
+ * @export
+ * @class Ring
+ * @extends {Base}
+ */
 export default class Ring extends Base {
 
 	constructor() {

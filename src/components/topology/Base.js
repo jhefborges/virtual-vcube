@@ -22,25 +22,60 @@ export default class Base {
         return false;
     }
 
+    /**
+     *Executa no fim da rodada de testes
+     * @instance
+     * @memberof Base
+     */
     fimDeRodada(){
     }
 
+
+    /**
+     * Retorna true se finalizou o diagnostico
+     * @instance
+     * @returns true se finalizou o diagnostico false se não
+     * @memberof Base
+     */
     finaliza(){
         return false;
     }
 
+
+    /**
+     *Retorna posição em x do nodo indice no conjunto n
+     * @instance
+     * @param {*} indice indice do nodo
+     * @param {*} n conjunto de nodos
+     * @returns coordenada x
+     * @memberof Base
+     */
     posicaoX(indice, n) {
         let tInterval = 2 * Math.PI / n;
         let intervalo = tInterval * indice + inicioPi;
         return h + a * (Math.cos(intervalo));
     };
 
+    /**
+     *Retorna posição em y do nodo indice no conjunto n
+     * @instance
+     * @param {*} indice indice do nodo
+     * @param {*} n conjunto de nodos
+     * @returns coordenada y
+     * @memberof Base
+     */
     posicaoY(indice, n) {
         let tInterval = 2 * Math.PI / n;
         let intervalo = tInterval * indice + inicioPi;
         return k + b * (Math.sin(intervalo));
     };
 
+
+    /**
+     *Função que pode desenhar o cluster
+     * @instance
+     * @memberof Base
+     */
     desenhaCluster(){};
 
 
