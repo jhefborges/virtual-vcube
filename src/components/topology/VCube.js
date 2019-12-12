@@ -49,7 +49,7 @@ export default class VCube extends Base {
                     },
                     {
                         "i":13,
-                        "text": "A lat\u00eancia \u00e9, no m\u00e1ximo, logN\nrodadas de testes e\ns\u00e3o executados N testes por \nintervalo"
+                        "text": "A lat\u00eancia \u00e9, no m\u00e1ximo, log²N\nrodadas de testes e\ns\u00e3o executados NlogN testes por \nintervalo"
                     }
                 ];
         this.textoFinaliza = {};
